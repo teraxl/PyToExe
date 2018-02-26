@@ -10,7 +10,7 @@ from pip._vendor.distlib.compat import raw_input
 class Py2Exe:
     def py2exe(self, argv = None):
         if argv == None:
-            FileName = raw_input("passwordgen.py").strip()
+            FileName = raw_input('Enter the name of the py file that you want to convert (should be in the current directory):').strip()
         else:
             FileName = argv[1].strip()
             
