@@ -14,15 +14,16 @@ class Py2Exe:
         else:
             FileName = argv[1].strip()
             
-        if FileName[0] == '.\'' or FileName[0] == '.\'':
+        if FileName[0] == '\'' or FileName[0] == "\"":
             FileName = FileName[1:-1]
         FileName = FileName.split('\\')[-1]
         
         CurrentPath = os.getcwd()
-        PyInstaller = os.path[0] + "\\Scripts\\pyinstaller-script.py"
+        PyInstaller = sys.path[0] + "\\PyInstaller-3.1.1\\pyinstaller.py"
         PyFile_1 = sys.path[0] + '\\' + FileName
         SpecFile = CurrentPath + '\\' + FileName[:-3] + '.spec'
         ExeFile_1 = "%s.exe" % (FileName[:-3])
+        print(str(ExeFile_1))
         ExePath_1 = "%s\\dist\\%s"%((CurrentPath, ExeFile_1))
         CopyPath_1 = "%s\\%s" % ((CurrentPath, ExeFile_1))
         
@@ -30,7 +31,7 @@ class Py2Exe:
             print ("%sAll ready exist, don`t need convert" % (ExeFile_1))
             return False
         else:
-            os.system('python "%s" --console --openfile "%s"' % (PyInstaller, PyFile_1))
+            os.system('python "%s" --onefile "%s"' % (PyInstaller, PyFile_1))
         
         if os.path.exists(ExePath_1):
             print('exe generated')
