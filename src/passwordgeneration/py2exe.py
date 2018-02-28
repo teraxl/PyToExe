@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf8
 '''
 Created on 26 february. 2018 year.
 
@@ -6,11 +6,12 @@ Created on 26 february. 2018 year.
 '''
 import os, shutil, sys
 from pip._vendor.distlib.compat import raw_input
+from builtins import str
 
 class Py2Exe:
     def py2exe(self, argv = None):
         if argv == None:
-            FileName = raw_input('Enter the name of the py file that you want to convert (should be in the current directory):').strip()
+            FileName = raw_input('Enter the name file:').strip()
         else:
             FileName = argv[1].strip()
             
@@ -19,11 +20,10 @@ class Py2Exe:
         FileName = FileName.split('\\')[-1]
         
         CurrentPath = os.getcwd()
-        PyInstaller = sys.path[0] + "\\PyInstaller-3.1.1\\pyinstaller.py"
+        PyInstaller = str(sys.path[4])# + "\\PyInstaller-3.1.1\\pyinstaller.py"
         PyFile_1 = sys.path[0] + '\\' + FileName
         SpecFile = CurrentPath + '\\' + FileName[:-3] + '.spec'
         ExeFile_1 = "%s.exe" % (FileName[:-3])
-        print(str(ExeFile_1))
         ExePath_1 = "%s\\dist\\%s"%((CurrentPath, ExeFile_1))
         CopyPath_1 = "%s\\%s" % ((CurrentPath, ExeFile_1))
         
@@ -31,7 +31,7 @@ class Py2Exe:
             print ("%sAll ready exist, don`t need convert" % (ExeFile_1))
             return False
         else:
-            os.system('python "%s" --onefile "%s"' % (PyInstaller, PyFile_1))
+            os.system('"%s" --onefile --windowed "%s"' % (PyInstaller + "\\Scripts\\pyinstaller.exe", PyFile_1))
         
         if os.path.exists(ExePath_1):
             print('exe generated')

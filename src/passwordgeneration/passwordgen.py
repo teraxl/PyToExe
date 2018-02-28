@@ -3,18 +3,54 @@
 Created on 26 february 2018 year.
 @author: Aleksandr.Muga
 '''
-from tkinter import *
+from tkinter import filedialog, Tk, Frame, Text, Scrollbar, Button
+
+def Quit(event):
+    global root
+    root.destroy()
+    
+def LoadFile(event): 
+    fn = filedialog.Open(root, filetypes = [('*.txt files', '.txt')]).show()
+    if fn == '':
+        return
+    textbox.delete('1.0', 'end') 
+    textbox.insert('1.0', open(fn, 'rt').read())
+    
+def SaveFile(event):
+    fn = filedialog.SaveAs(root, filetypes = [('*.txt files', '.txt')]).show()
+    if fn == '':
+        return
+    if not fn.endswith(".txt"):
+        fn+=".txt"
+    open(fn, 'wt').write(textbox.get('1.0', 'end'))
 
 root = Tk()
 
-def Hello(event):
-    print("Yet now anather hello world")
-    
-btn = Button(root,
-             text = "Click Me",
-             width = 30,
-             height = 5,
-             bg = "white", fg = "black")
-btn.bind("<Button - 1>", Hello)
-btn.pack()
+panelFrame = Frame(root, height = 60, bg = 'gray')
+textFrame = Frame(root, height = 340, width = 600)
+
+panelFrame.pack(side = 'top', fill = 'x')
+textFrame.pack(side = 'bottom', fill = 'both', expand = 1)
+
+textbox = Text(textFrame, font='Arial 14', wrap='word')
+scrollbar = Scrollbar(textFrame)
+
+scrollbar['command'] = textbox.yview
+textbox['yscrollcommand'] = scrollbar.set
+
+textbox.pack(side = 'left', fill = 'both', expand = 1)
+scrollbar.pack(side = 'right', fill = 'y')
+
+loadBtn = Button(panelFrame, text = 'Load')
+saveBtn = Button(panelFrame, text = 'Save')
+quitBtn = Button(panelFrame, text = 'Quit')
+
+loadBtn.bind("<Button-1>", LoadFile)
+saveBtn.bind("<Button-1>", SaveFile)
+quitBtn.bind("<Button-1>", Quit)
+
+loadBtn.place(x = 10, y = 10, width = 40, height = 40)
+saveBtn.place(x = 60, y = 10, width = 40, height = 40)
+quitBtn.place(x = 110, y = 10, width = 40, height = 40)
+
 root.mainloop()
